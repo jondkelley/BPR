@@ -131,7 +131,17 @@
 	})
 
 	.service("pager", function(){
-		let dt = new Date();
+		// Converts the add and view pages to be localtime instead of UTC
+		function convertUTCDateToLocalDate(date) {
+			var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+			var offset = date.getTimezoneOffset() / 60;
+			var hours = date.getHours();
+
+			newDate.setHours(hours - offset);
+			return newDate;   
+		}
+		let dt = new convertUTCDateToLocalDate(Date());
 		
 		this.getCurrentMonth = () => {
 			return {

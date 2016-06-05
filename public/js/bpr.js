@@ -31,6 +31,17 @@ var kmBpr = angular.module("kmBpr", ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'n
 	"use strict";
 
 	app.controller("chartController", function ($scope, chart, utils) {
+
+		function convertUTCDateToLocalDate(date) {
+			var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+			var offset = date.getTimezoneOffset() / 60;
+			var hours = date.getHours();
+
+			newDate.setHours(hours - offset);
+
+			return newDate;
+		}
 		var lines = { 'SYS': true, 'DIA': true, 'Pulse': false },
 		    chartData = [],
 		    srcChartData = [],
@@ -50,7 +61,8 @@ var kmBpr = angular.module("kmBpr", ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'n
 					chartData[indx].unshift(dataSet[indx]);
 				}
 				srcChartData = angular.copy(dbData); //for filtering
-				thisChart = chart.build(chartData, {});
+				//thisChart = chart.build(chartData, {});
+				thisChart = chart.build([]], {});
 			});
 		};
 
@@ -77,7 +89,13 @@ var kmBpr = angular.module("kmBpr", ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'n
 					dt = new Date(srcChartData[3][indx]);
 					if ($scope.select === "am" && dt.getHours() < 12 || $scope.select === "pm" && dt.getHours() >= 12) {
 						for (var indy = 0; indy <= 3; indy++) {
-							chartData[indy].push(srcChartData[indy][indx]);
+							if (indy == 3) { // This hack formats UTC to local time on am/pm
+								var theDate = srcChartData[indy][indx];
+								var datedate = new Date(theDate);
+								chartData[indy].push(datedate);
+							} else {
+								chartData[indy].push(srcChartData[indy][indx]);
+							}
 						}
 					}
 				}
