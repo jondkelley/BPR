@@ -76,9 +76,9 @@
 						x: 'x',
 						columns: columnData,
 						types: {
-							SYS: 'line',
-							DIA: 'line' ,
-							Pulse: 'line' 
+							SYS: 'spline',
+							DIA: 'spline' ,
+							Pulse: 'spline' 
 						},
 						hide: ['Pulse'],
 						xFormat: '%Y-%m-%dT%H:%M:%S.%LZ'
