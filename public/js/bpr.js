@@ -61,8 +61,7 @@ var kmBpr = angular.module("kmBpr", ['ngRoute', 'ui.bootstrap', 'ngSanitize', 'n
 					chartData[indx].unshift(dataSet[indx]);
 				}
 				srcChartData = angular.copy(dbData); //for filtering
-				//thisChart = chart.build(chartData, {});
-				thisChart = chart.build([]], {});
+				thisChart = chart.build(chartData, {});
 			});
 		};
 
